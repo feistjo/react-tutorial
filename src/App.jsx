@@ -3,7 +3,8 @@ import { useJsonQuery } from './utilities/fetch';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Banner from './components/Banner';
-import CourseList from './components/CourseList';
+
+import TermPage from './components/TermPage';
 
 const Main = () => {
   const [data, isLoading, error] = useJsonQuery("https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php");
@@ -15,7 +16,7 @@ const Main = () => {
   return (
     <div>
       <Banner title={data.title} />
-      <CourseList courses={data.courses} />
+      <TermPage courses={data.courses} />
     </div>
   );
 };
