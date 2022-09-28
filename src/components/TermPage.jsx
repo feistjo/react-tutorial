@@ -24,18 +24,21 @@ const TermSelector = ({selection, setSelection}) => (
   </div>
 );
 
-const Term = ({selection}) => (
-    <div className="card">
-        {terms[selection]}
-    </div>
-);
-
 const TermPage = ({courses}) => {
-    const [selection, setSelection] = useState(() => Object.keys(terms)[0]);
+    const [termSelection, setTermSelection] = useState(() => Object.keys(terms)[0]);
+    const [selectedCourses, setCourseSelected] = useState([]);
+
+    const toggleCourseSelected = (item) => setCourseSelected(
+        selectedCourses.includes(item) ? selectedCourses.filter(x => x !== item) : [...selectedCourses, item]
+    );
+
     return (
         <div>
-            <TermSelector selection={selection} setSelection={setSelection} />
-            <CourseList courses={Object.fromEntries(Object.entries(courses).filter(course => course[1].term === terms[selection]))} />
+            <TermSelector selection={termSelection} setSelection={setTermSelection} />
+            <CourseList 
+                courses={Object.fromEntries(Object.entries(courses).filter(course => course[1].term === terms[termSelection]))}
+                selected={selectedCourses}
+                toggleSelected={toggleCourseSelected} />
         </div>
     )
 }
