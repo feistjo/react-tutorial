@@ -4,8 +4,7 @@ import { Link } from "react-router-dom";
 import { Pencil } from "react-bootstrap-icons";
 import { useAuthState } from "../utilities/firebase";
 
-const Course = ({ id, course, courses, selected, toggleSelected }) => {
-  const [user] = useAuthState();
+const Course = ({ id, course, courses, selected, toggleSelected, isAdmin }) => {
   return (
     <div
       className={`card m-1 p-2 ${
@@ -26,7 +25,7 @@ const Course = ({ id, course, courses, selected, toggleSelected }) => {
         {course.term} CS {course.number}
       </h5>
       <p className="card-text">{course.title}</p>
-      {user ? (
+      {isAdmin ? (
         <p>
           <Link to={`/course/${id}/edit`}>
             <Pencil />

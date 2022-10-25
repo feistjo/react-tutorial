@@ -1,14 +1,22 @@
-import { useState } from 'react';
-import './CourseList.css'
-import Course from './Course';
+import { useState } from "react";
+import "./CourseList.css";
+import Course from "./Course";
 
-const CourseList = ({courses, selected, toggleSelected}) => {
-    return (
-        <div className="course-list">
-            {Object.entries(courses).map(([id,course]) => 
-            <Course id={id} course={course} courses={courses} selected={selected} toggleSelected={toggleSelected} />)}
-        </div>
-    );
-}
+const CourseList = ({ courses, selected, toggleSelected, isAdmin }) => {
+  return (
+    <div className="course-list">
+      {Object.entries(courses).map(([id, course]) => (
+        <Course
+          id={id}
+          course={course}
+          courses={courses}
+          selected={selected}
+          toggleSelected={toggleSelected}
+          isAdmin={isAdmin}
+        />
+      ))}
+    </div>
+  );
+};
 
 export default CourseList;

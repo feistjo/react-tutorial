@@ -12,14 +12,13 @@ const SignOutButton = () => (
   </button>
 );
 
-const AuthButton = () => {
-  const [user] = useAuthState();
+const AuthButton = ({ user }) => {
   return user ? <SignOutButton /> : <SignInButton />;
 };
 
-const Banner = ({ title }) => (
+const Banner = ({ title, user }) => (
   <div className="d-flex">
-    <h1>{title}</h1> <AuthButton />
+    <h1>{title}</h1> <AuthButton user={user} />
   </div>
 );
 
