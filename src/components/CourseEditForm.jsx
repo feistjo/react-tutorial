@@ -1,5 +1,6 @@
 import { useFormData } from "../utilities/UseFormData";
 import { useNavigate } from "react-router-dom";
+import { useDbUpdate } from "../utilities/firebase";
 
 const validateFormData = (key, val) => {
   switch (key) {
@@ -47,22 +48,30 @@ const ButtonBar = ({ message, disabled }) => {
       >
         Cancel
       </button>
+      <button
+        type="submit"
+        className="btn btn-primary me-auto"
+        disabled={disabled}
+      >
+        Submit
+      </button>
       <span className="p-2">{message}</span>
     </div>
   );
 };
 
 export const CourseEditForm = ({ courses, id }) => {
+  const [update, result] = useDbUpdate(`/courses/${id}`);
   const course = courses[id];
   const [state, change] = useFormData(validateFormData, course);
+  const navigate = useNavigate();
   const submit = (evt) => {
     evt.preventDefault();
     if (!state.errors) {
       update(state.values);
+      navigate(-1);
     }
   };
-
-  console.log(state);
 
   return (
     <form
@@ -82,7 +91,7 @@ export const CourseEditForm = ({ courses, id }) => {
         state={state}
         change={change}
       />
-      <ButtonBar />
+      <ButtonBar message={result?.message} />
     </form>
   );
 };
