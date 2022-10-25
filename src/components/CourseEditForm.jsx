@@ -1,21 +1,40 @@
 import { useFormData } from "../utilities/UseFormData";
 import { useNavigate } from "react-router-dom";
 
-const InputField = ({ name, text, state, change }) => (
-  <div className="mb-3">
-    <label htmlFor={name} className="form-label">
-      {text}
-    </label>
-    <input
-      className="form-control"
-      id={name}
-      name={name}
-      defaultValue={state.values?.[name]}
-      onChange={change}
-    />
-    <div className="invalid-feedback">{state.errors?.[name]}</div>
-  </div>
-);
+const validateFormData = (key, val) => {
+  switch (key) {
+    case "title":
+      return /(^\w\w)/.test(val) ? "" : "must be least two characters";
+    case "meets":
+      return /^\w+[ ]([0-9]|[0-1][0-9]|2[0-4])[:][0-5][0-9]-([0-9]|[0-1][0-9]|2[0-4])[:][0-5][0-9]/.test(
+        val
+      )
+        ? ""
+        : "must contain days and start-end, e.g., MWF 12:00-13:20";
+    default:
+      return "";
+  }
+};
+
+const InputField = ({ name, text, state, change }) => {
+  console.log(state);
+  console.log(name);
+  return (
+    <div className="mb-3">
+      <label htmlFor={name} className="form-label">
+        {text}
+      </label>
+      <input
+        className="form-control"
+        id={name}
+        name={name}
+        defaultValue={state.values?.[name]}
+        onChange={change}
+      />
+      <div className="invalid-feedback">{state.errors?.[name]}</div>
+    </div>
+  );
+};
 
 const ButtonBar = ({ message, disabled }) => {
   const navigate = useNavigate();
@@ -35,13 +54,15 @@ const ButtonBar = ({ message, disabled }) => {
 
 export const CourseEditForm = ({ courses, id }) => {
   const course = courses[id];
-  const [state, change] = useFormData(null, course);
+  const [state, change] = useFormData(validateFormData, course);
   const submit = (evt) => {
     evt.preventDefault();
     if (!state.errors) {
       update(state.values);
     }
   };
+
+  console.log(state);
 
   return (
     <form
