@@ -14,6 +14,7 @@ const Course = ({ id, course, courses, selected, toggleSelected, isAdmin }) => {
           ? "conflicts"
           : ""
       }`}
+      data-cy="course"
       onClick={() =>
         !selected.includes(id) &&
         GetTimeConflictWithList(course, courses, selected)
